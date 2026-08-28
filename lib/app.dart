@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 import 'core/theme/app_theme.dart';
-import 'features/transactions/screens/transaction_list_screen.dart';
+import '/screens/transaction_list_screen.dart';
 
 /// The root widget of Xpense.
 ///
