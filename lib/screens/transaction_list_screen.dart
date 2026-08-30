@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/sample_transactions.dart';
 import '../widgets/transaction_tile.dart';
+import '../widgets/balance_summary.dart';
 
 //app home screen for Sprint 1: a scrollable list of transactions
 //sourced from hardcoded sample data.
@@ -14,11 +15,18 @@ class TransactionListScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Xpense')),
-      body: ListView.builder(
-        itemCount: transactions.length,
-        itemBuilder: (context, index) {
-          return TransactionTile(transaction: transactions[index]);
-        },
+      body: Column(
+        children: [
+          BalanceSummary(transactions: transactions),
+          Expanded( //list will take the rest of room after siblings are sized
+            child: ListView.builder(
+              itemCount: transactions.length,
+              itemBuilder: (context, index) {
+                return TransactionTile(transaction: transactions[index]);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
