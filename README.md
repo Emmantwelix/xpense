@@ -1,17 +1,37 @@
-# xpense# xpense
+# Xpense
 
-A new Flutter project.
+Xpense is a personal expense-tracking app for Android (for now), built with Flutter, giving a clear, at-a-glance view of money moving in and out of your accounts.
 
-## Getting Started
+## Status
 
-This project is a starting point for a Flutter application.
+This is Sprint 1 of a multi-sprint roadmap. Sprint 1 delivers a runnable app showing a scrollable list of transactions and a computed balance summary, using hardcoded sample data (for now). Persistence, multiple accounts, and categories arrive will arrive later.
 
-A few resources to get you started if this is your first Flutter project:
+## Features (Sprint 1)
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- Scrollable list of income and expense transactions, each showing description, category, date, and a colour-coded, signed amount.
+- A balance header showing total money in, total money out, and net balance computed live from the transaction list.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Running the app
+
+1. Install the Flutter SDK ([flutter.dev](https://flutter.dev)) and confirm your setup with `flutter doctor`.
+2. Clone this repository and run `flutter pub get`.
+3. Connect an Android device (USB debugging enabled) or start an emulator.
+4. Run `flutter run`.
+
+## Running tests
+
+- `flutter test` — unit tests on the `Transaction` model and a widget test on `TransactionListScreen`.
+- `flutter analyze` — static analysis; the project is expected to stay clean.
+
+## Architecture
+
+The code is organized by layer, not by feature:
+
+- `lib/models/` — plain Dart data (`Transaction`) and pure logic (the `TransactionSummary` extension). No Flutter imports; fully unit-testable in isolation.
+- `lib/data/` — where transaction data comes from. Currently `sampleTransactions()`, a hardcoded stand-in; a later sprint replaces its implementation with a SQLite-backed repository without changing how the rest of the app calls it.
+- `lib/widgets/` — small, reusable presentational widgets (`TransactionTile`, `BalanceSummary`).
+- `lib/screens/` — full screens that compose the above (`TransactionListScreen`).
+
+This separation means a future change to *where* data comes from only touches `lib/data/`.
+
+![sprint_1_image](Screenshot_20260830_182949.jpg)
