@@ -18,7 +18,7 @@ class TransactionListScreen extends StatelessWidget {
       body: Column(
         children: [
           BalanceSummary(transactions: transactions),
-          Expanded( //list will take the rest of room after siblings are sized
+          Expanded( //list will take the rest of room after siblings are sized (avoid render error)
             child: ListView.builder(
               itemCount: transactions.length,
               itemBuilder: (context, index) {
