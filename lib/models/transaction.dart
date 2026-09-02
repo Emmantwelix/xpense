@@ -27,6 +27,24 @@ class Transaction {
   //positive for income, negative for expense.
   double get signedAmount => type == TransactionType.income ? amount : -amount;
 
+  Transaction copyWith({
+    int? id,
+    String? description,
+    String? category,
+    DateTime? date,
+    double? amount,
+    TransactionType? type,
+  }) {
+    return Transaction(
+      id: id ?? this.id,
+      description: description ?? this.description,
+      category: category ?? this.category,
+      date: date ?? this.date,
+      amount: amount ?? this.amount,
+      type: type ?? this.type,
+    );
+  }
+
 
   //sql: transforms Transaction object into row shape sqflite expects
   Map<String, dynamic> toMap() {
@@ -66,5 +84,7 @@ class Transaction {
 
   @override
   int get hashCode => Object.hash(id, description, category, date, amount, type);
+
+  
 
 }
