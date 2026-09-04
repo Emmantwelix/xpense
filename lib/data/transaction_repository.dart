@@ -8,7 +8,7 @@ class TransactionRepository {
 
   Future<List<Transaction>> getAll() async {
     final db = await _transactionDatabase.database;
-    final maps = await db.query('transactions'); //get all rows from the transactions table
+    final maps = await db.query('transactions', orderBy: 'date DESC'); //get all rows from the transactions table
     return maps.map((map) => Transaction.fromMap(map)).toList(); //convert each row (map) into a Transaction object
   }
 

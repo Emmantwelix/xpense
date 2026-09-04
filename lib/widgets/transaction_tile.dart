@@ -6,8 +6,9 @@ import '../models/transaction.dart';
 /// beyond the Transaction it's given.
 class TransactionTile extends StatelessWidget {
   final Transaction transaction;
+  final VoidCallback? onTap; //takes no arguments and returns nothing (when a tile is tapped)
 
-  const TransactionTile({super.key, required this.transaction}); //const: skip rebuilding the widget if nothing changes
+  const TransactionTile({super.key, required this.transaction, this.onTap}); //const: skip rebuilding the widget if nothing changes
 
   static const _monthAbbreviations = [
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -25,6 +26,7 @@ class TransactionTile extends StatelessWidget {
     final sign = isIncome ? '+' : '-';
 
     return ListTile(
+      onTap: onTap,
       leading: Icon(
         isIncome ? Icons.arrow_upward : Icons.arrow_downward,
         color: amountColor,
