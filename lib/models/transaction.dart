@@ -7,7 +7,7 @@ enum TransactionType { income, expense }
 // direction. Use [signedAmount] wherever you need a value that can be
 // summed directly (e.g. computing a balance).
 class Transaction {
-  final String id;
+  final int? id; //id is given by the database, null when the data is not yet stored.
   final String description;
   final String category;
   final DateTime date;
@@ -15,7 +15,7 @@ class Transaction {
   final TransactionType type;
 
   Transaction({
-    required this.id,
+    this.id,
     required this.description,
     required this.category,
     required this.date,
@@ -26,4 +26,65 @@ class Transaction {
   //return signed amount
   //positive for income, negative for expense.
   double get signedAmount => type == TransactionType.income ? amount : -amount;
+
+  Transaction copyWith({
+    int? id,
+    String? description,
+    String? category,
+    DateTime? date,
+    double? amount,
+    TransactionType? type,
+  }) {
+    return Transaction(
+      id: id ?? this.id,
+      description: description ?? this.description,
+      category: category ?? this.category,
+      date: date ?? this.date,
+      amount: amount ?? this.amount,
+      type: type ?? this.type,
+    );
+  }
+
+
+  //sql: transforms Transaction object into row shape sqflite expects
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'description': description,
+      'category': category,
+      'date': date.toIso8601String(),
+      'amount': amount,
+      'type': type.name, //return enum as a string, not index.
+    };
+  }
+
+  //sql: transforms row shape sqflite returns into Transaction object
+  factory Transaction.fromMap(Map<String, dynamic> map) {
+    return Transaction(
+      id: map['id'] as int?,
+      description: map['description'] as String,
+      category: map['category'] as String,
+      date: DateTime.parse(map['date'] as String),
+      amount: map['amount'] as double,
+      type: TransactionType.values.byName(map['type'] as String),
+    );
+  }
+
+  //comparison of two transaction objects.
+  @override
+  bool operator ==(Object other) {
+    return other is Transaction &&
+        id == other.id &&
+        description == other.description &&
+        category == other.category &&
+        date == other.date &&
+        amount == other.amount &&
+        type == other.type;
+  }
+
+  @override
+  int get hashCode => Object.hash(id, description, category, date, amount, type);
+
+  
+
 }
